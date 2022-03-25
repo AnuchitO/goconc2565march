@@ -2,20 +2,25 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 func main() {
 	ch := make(chan int)
 
-	go func() {
-		defer close(ch)
-
-		// TODO: send all values on channel without blocking
-		for i := 0; i < 6; i++ {
+	go func(c chan<- int) {
+		defer close(c)
+		for i := 0; i < 5; i++ {
 			fmt.Printf("Sending: %d\n", i)
-			ch <- i
+			c <- i
 		}
-	}()
+	}(ch)
 
-	// TODO: print all of the values received on the channel
+	go func(c <-chan int) {
+		for v := range c {
+			fmt.Printf("Received: %d\n", v)
+		}
+	}(ch)
+
+	time.Sleep(5 * time.Second)
 }
