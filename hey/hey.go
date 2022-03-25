@@ -13,9 +13,17 @@ func hey(msg string) {
 		time.Sleep(time.Duration(rand.Intn(1e3)) * time.Millisecond)
 	}
 }
+
 func main() {
-	hey("A")
-	hey("penguin")
+
+	v := "xxx"
+
+	go func(s string) {
+		hey(s)
+	}(v)
+
+	go hey("penguin")
+
 	fmt.Scanln()
 	fmt.Println("Done")
 }
