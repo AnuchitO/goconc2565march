@@ -6,10 +6,10 @@ func main() {
 	c := make(chan string)
 
 	go func() {
-		c <- "gopher"
+		msg := <-c
+		fmt.Println("message: ", msg)
 	}()
 
-	msg := <-c
-	fmt.Println("message: ", msg)
+	c <- "gopher"
 	fmt.Println("Done")
 }
