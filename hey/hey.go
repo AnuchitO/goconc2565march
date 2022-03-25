@@ -1,13 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
 
-func hey(s string) {
-	fmt.Println("hey Gopher", s)
+func hey(msg string) {
+	for i := 0; ; i++ {
+		s := fmt.Sprintf("hey %s Gopher %d", msg, i)
+		fmt.Println(s)
+		time.Sleep(time.Duration(rand.Intn(1e3)) * time.Millisecond)
+	}
 }
 func main() {
-	go hey("A")
-
+	hey("A")
+	hey("penguin")
 	fmt.Scanln()
 	fmt.Println("Done")
 }
