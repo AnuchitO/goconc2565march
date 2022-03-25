@@ -2,18 +2,23 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
-//TODO: run the program and check that variable i
-// was pinned for access from goroutine even after
-// enclosing function returns.
-
 func main() {
-	for i := 1; i <= 5; i++ {
-		go func() {
-			fmt.Println(i)
-		}()
+	var wg sync.WaitGroup
+
+	wg.Add(6)
+	for i := 0; i <= 5; i++ {
+		go func(x int) {
+			defer wg.Done()
+			fmt.Println("long procesing..")
+			time.Sleep(1 * time.Second)
+			fmt.Println(x)
+		}(i)
 	}
-	time.Sleep(5 * time.Second)
+
+	wg.Wait()
+	fmt.Println("Done")
 }
