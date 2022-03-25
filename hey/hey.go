@@ -16,11 +16,8 @@ func hey(msg string) {
 
 func main() {
 
-	v := "xxx"
-
-	go func(s string) {
-		hey(s)
-	}(v)
+	go hey("world")
+	
 
 	go hey("penguin")
 
